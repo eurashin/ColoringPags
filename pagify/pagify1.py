@@ -21,10 +21,10 @@ def pagify(paths):
         dim = (width, height)
 
         # resize image
-        resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
+        resized = cv2.resize(edges, dim, interpolation=cv2.INTER_AREA)
 
         img3 = cv2.bitwise_not(resized)
-        fname = 'colorme' + str(counter) + '.pdf'
+        fname = 'colorme' + str(counter) + '.jpg'
         cv2.imwrite('static/' + fname ,img3)
         counter += 1
 

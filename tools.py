@@ -9,10 +9,10 @@ from sklearn.cluster import KMeans
 NUMBER_OF_PAGES = 10
 MINUTES_TO_QUALIFY = 30
 
-def parse_location_data(string): 
-    raw = json.loads(string)
-#    with open(filename, 'r') as fh:
-#        raw = json.loads(fh.read())
+def parse_location_data(filename):
+#    raw = json.loads(string)
+    with open(filename, 'r') as fh:
+        raw = json.loads(fh.read())
 
     # use location_data as an abbreviation for location data
     location_data = pd.DataFrame(raw['locations'])

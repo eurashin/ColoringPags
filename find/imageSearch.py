@@ -45,7 +45,7 @@ def imageSearch(coords):
                 if len(loc.photos) != 0:
                     photo = loc.photos[0]
                     photo.get(maxheight=5000, maxwidth=5000)
-                    fname = 'result/result' + str(counter)+ '.jpg'
+                    fname = 'static/result' + str(counter)+ '.jpg'
                     f = open(fname, 'wb')
                     f.write(photo.data)
                     f.close()

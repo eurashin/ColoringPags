@@ -66,23 +66,26 @@ function download_pages() {
 
 function make_coloring_book() {
     // Get the input form elements
+    var link_string = $("#drive_link").val() ; 
     var start_string = $("#start").val() ; 
     var end_string = $("#end").val();
 
     var formData = new FormData();
-    formData.append('file', file);
+    formData.append('link', link_string);
     formData.append('start', start_string);
     formData.append('end', end_string);
 
 
     $.ajax({
-        url: 'https://coloring-book-257804.appspot.com/generate_pages',
+//        url: 'https://coloring-book-257804.appspot.com/generate_pages',
+        url: 'http://localhost:8080/generate_pages',
         type: 'POST',
         data: formData,
         dataType: "json",
         success: function (data) {
             localStorage.setItem('paths', JSON.stringify(data.paths));
-            window.location.replace("https://coloring-book-257804.appspot.com/book");
+            //window.location.replace("https://coloring-book-257804.appspot.com/book");
+            window.location.replace("http://localhost:8080/book");
         },
         cache: false,
         contentType: false,
@@ -90,13 +93,5 @@ function make_coloring_book() {
     });
 }
 
-function upload_file(files) {
-    files = files; 
-    if(files.length == 0) {
-        console.log("empty!"); 
-    }
-    else {
-        file = files[0];    
-    }
-}
+
 // [END gae_python37_log]
