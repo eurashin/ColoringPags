@@ -15,13 +15,16 @@
  
 // [START gae_python37_log]
 var file; 
+var doc; 
+var NUM_PAGES = 9; 
 
 function on_book_load(directory) {
     console.log(localStorage.getItem('paths'));
+    doc = new jsPDF();
 }
 
 
-var getImageFromUrl = function(url, callback) {
+var getImageFromUrl = function(url, page, callback) {
     var img = new Image();
 
     img.onError = function() {
@@ -29,49 +32,36 @@ var getImageFromUrl = function(url, callback) {
     };
 
     img.onload = function() {
-        callback(img);
+        callback(img, page);
     };
 
     img.src = url;
 }
 
 
-var createPDF = function(imgData) {
-    var doc = new jsPDF();
+var createPDF = function(imgData, i) {
+    if(i > 0) {
+        doc.addPage();
+    }
 
-    doc.addImage(imgData, 'JPEG', 10, 10, 50, 50, 'monkey');
-    doc.addImage('monkey', 70, 10, 100, 120); // use the cached 'monkey' image, JPEG is optional regardless
+    doc.addImage(imgData, 'JPEG', 0,0 );
 
-    doc.output('datauri');
+    console.log('added!');
+    if(i == NUM_PAGES) {
+        doc.save("download.pdf"); 
+    }
 }
 
 
-function download_pages() {
-    var pdf = new jsPDF();
 
+function download_pages() {
     var paths = JSON.parse(localStorage.getItem("paths"));
    
     for(var i=0; i<paths.length; i++) {
-        base_image = new Image();
-        base_image.onload = function(){
-            // Create an html canvas element
-            var canvas = document.createElement('CANVAS');
-            // Create a 2d context
-            var ctx = canvas.getContext('2d');
-            // Resize the canavas to the image dimensions
-            canvas.height = this.height;
-            canvas.width = this.width;
-            // Draw the image to a canvas
-            ctx.drawImage(this, 0, 0);
-            // Convert the canvas to a data url
-            var dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            pdf.addImage(base_image, 'JPEG', 0, 0);
-            canvas = null;
-        }
-        base_image.src = "/static/" + paths[i] ;
+        var url = "/static/" + paths[i] ;
+        getImageFromUrl(url, i, createPDF);
     }
-     
-    pdf.save("download.pdf"); 
+    
 }
 
 function make_coloring_book() {
@@ -86,13 +76,13 @@ function make_coloring_book() {
 
 
     $.ajax({
-        url: 'http://localhost:8080/generate_pages',
+        url: 'https://coloring-book-257804.appspot.com/generate_pages',
         type: 'POST',
         data: formData,
         dataType: "json",
         success: function (data) {
             localStorage.setItem('paths', JSON.stringify(data.paths));
-            window.location.replace("http://localhost:8080/book");
+            window.location.replace("https://coloring-book-257804.appspot.com/book");
         },
         cache: false,
         contentType: false,
