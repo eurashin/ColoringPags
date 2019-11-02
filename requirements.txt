@@ -3,3 +3,8 @@ numpy
 pandas
 matplotlib
 sklearn
+googlemaps
+python-google-places
+pyyaml
+opencv-python
+Pillow
