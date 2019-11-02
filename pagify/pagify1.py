@@ -27,7 +27,8 @@ while(True):
     edges = cv2.Canny(img, thresh1, thresh2, apertureSize=apSize, L2gradient=norm_flag)
 
     img2 = cv2.resize(edges, (1000, 666))
-    cv2.imshow('pic', img2)
+    img3 = cv2.bitwise_not(img2)
+    cv2.imshow('pic', img3)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
