@@ -14,8 +14,17 @@ def pagify(paths):
         high_thresh, thresh_im = cv2.threshold(img_grey, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         lowThresh = 0.8 * high_thresh
         edges = cv2.Canny(img_grey, lowThresh, high_thresh, apertureSize=3)
-        img3 = cv2.bitwise_not(edges)
-        fname = 'colorme' + str(counter) + '.jpg'
+
+        scale_percent = 60  # percent of original size
+        width = int(img.shape[1] * scale_percent / 100)
+        height = int(img.shape[0] * scale_percent / 100)
+        dim = (width, height)
+
+        # resize image
+        resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
+
+        img3 = cv2.bitwise_not(resized)
+        fname = 'colorme' + str(counter) + '.pdf'
         cv2.imwrite('static/' + fname ,img3)
         counter += 1
 
