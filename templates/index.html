@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+         <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <title>Coloring Book</title>
+    </head>
+
+    <body onload='onload()'>
+        <h1 style='text-align:center;'>Color Atlas</h1>
+
+       <div style='width:30%; padding:5%; margin-left:30%; text-align:left; background:rgb(256,256,256,0.8);'>
+          <label for="file">Location history file:</label>
+          <br>
+          <input type="file"
+              id="file" name="location_history"
+              accept="application/json"
+              onchange='upload_file(this.files)'/>
+           
+          <br>
+          <label for="start">Start date:</label>
+          <br>
+          <input type="date" id='start'/>
+          
+          <br>
+          <label for="end">End date:</label>
+          <br>
+          <input type="date" id='end'/>
+
+
+          <br>
+          <button style='width:100%;' id='submit' onclick='make_coloring_book()'> 
+            Make my coloring book!
+          </button>
+       </div>
+    </body>
+</html>

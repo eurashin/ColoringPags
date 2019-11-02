@@ -1,0 +1,54 @@
+* {
+      color: #2b2b2b;
+      font-family: Courier, monospace;
+      font-size:1vw;
+}
+
+h1 {
+      font: 5vw 'Arizonia', Helvetica, sans-serif;
+      color:white;
+}
+
+html {
+    padding-right:15%;
+    padding-left:15%;
+
+    height:100%;
+}
+
+body {
+    margin:auto;
+    background-image:url('background2.jpg');
+    background-size: cover;
+    background-repeat:no-repeat;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background:rgba(256, 256, 256);
+    text-align:center;
+}
+
+label {
+    width:100%;
+    font-size:1.5vw;
+    font-weight:bold;
+
+}
+
+input {
+    display:inline-block;
+    margin-bottom:10%;
+
+}
+
+
+button {
+    margin-top: 3vh; 
+    margin-bottom: 3vh; 
+    border:solid black;
+    background:white;
+    height:5vh;
+}
