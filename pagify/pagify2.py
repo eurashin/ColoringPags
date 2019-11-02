@@ -25,7 +25,8 @@ while(True):
 
 #cv2.imwrite('../img/pic4.jpg', img_contours)
     img2 = cv2.resize(img_contours, (1000, 666))
-    cv2.imshow('pic', img2)
+    img3 = cv2.bitwise_not(img2)
+    cv2.imshow('pic', img3)
 
     if cv2.waitKey(1)&0xFF == ord('q'):
         break
