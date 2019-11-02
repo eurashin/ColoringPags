@@ -42,17 +42,18 @@ def extract_time_period(df, start_date, end_date):
     duration_coords =  durations[durations > datetime.timedelta(minutes=MINUTES_TO_QUALIFY)].index.values
     place_coords = np.array(np.ndarray.tolist(duration_coords))
 
-    plt.scatter(place_coords[:,0], place_coords[:,1])
-    
-    # Cluster the images
-    k=NUMBER_OF_PAGES
-    if(place_coords.shape[0] < NUMBER_OF_PAGES):
-        k = place_coords.shape[0]
-    KM = KMeans(n_clusters = k, max_iter = 500) 
-    KM.fit(place_coords)
-    centers = KM.cluster_centers_
-    plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5);
+    centers = []
+    if(place_coords.shape[0] > 0): 
+        plt.scatter(place_coords[:,0], place_coords[:,1])
+        
+        # Cluster the images
+        k=NUMBER_OF_PAGES
+        if(place_coords.shape[0] < NUMBER_OF_PAGES):
+            k = place_coords.shape[0]
+        KM = KMeans(n_clusters = k, max_iter = 500) 
+        KM.fit(place_coords)
+        centers = KM.cluster_centers_
+        plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5);
     
     return(centers)
     
-

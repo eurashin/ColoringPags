@@ -19,8 +19,17 @@ from flask import Flask, render_template, request, jsonify
 import datetime
 from find.imageSearch import imageSearch
 from pagify.pagify1 import pagify
+from PIL import Image
+import io
+
 
 app = Flask(__name__)
+
+def serve_pil_image(pil_img):
+    img_io = io.StringIO()
+    pil_img.save(img_io, 'JPEG', quality=70)
+    img_io.seek(0)
+    return send_file(img_io, mimetype='image/jpeg')
 
 
 @app.route('/')
@@ -34,6 +43,11 @@ def root():
 
     return render_template('index.html', times=dummy_times)
 
+@app.route('/book/')
+def download():
+    return render_template('book.html')
+
+
 @app.route('/generate_pages', methods=['POST'])
 def generate():
     # Read the data
@@ -46,11 +60,21 @@ def generate():
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
     locations = tools.extract_time_period(location_data, start, end)
-    print(locations)
-   
-
-    return('hi')
-     
+  
+    # Retrieve the photos
+    if( isinstance(locations, list)): 
+        # Return failed status
+        return('failed')
+    else: 
+        paths = imageSearch(locations)
+        images = pagify(paths)
+       
+#        counter = 0
+#        for image in images: 
+#            cv2.imwrite('' + 'colorme' + str(counter) + ".jpg" ,image)
+#            counter = counter + 1
+        
+    return(jsonify(paths = images))
 
 
 if __name__ == '__main__':

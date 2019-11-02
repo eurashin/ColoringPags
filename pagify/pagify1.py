@@ -7,6 +7,7 @@ def callback(foo):
 
 def pagify(paths):
     counter = 0
+    img_paths = []
     for url in paths:
         img = cv2.imread(url, cv2.IMREAD_UNCHANGED)
         img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -15,8 +16,11 @@ def pagify(paths):
         edges = cv2.Canny(img_grey, lowThresh, high_thresh, apertureSize=3)
         img3 = cv2.bitwise_not(edges)
         fname = 'colorme' + str(counter) + '.jpg'
-        cv2.imwrite('result/' + fname ,img3)
+        cv2.imwrite('static/' + fname ,img3)
         counter += 1
+
+        img_paths.append(fname)
+    return(img_paths)
 
     # cv2.namedWindow('parameters')
     # cv2.createTrackbar('threshold', 'parameters', 0, 255, callback)
