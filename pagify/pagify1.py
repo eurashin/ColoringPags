@@ -5,10 +5,18 @@ from matplotlib import pyplot as plt
 def callback(foo):
     pass
 
-def pagify(url = '../img/test4.jpg'):
-    img = cv2.imread(url, cv2.IMREAD_UNCHANGED)
-
-    img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+def pagify(paths):
+    counter = 0
+    for url in paths:
+        img = cv2.imread(url, cv2.IMREAD_UNCHANGED)
+        img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        high_thresh, thresh_im = cv2.threshold(img_grey, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        lowThresh = 0.8 * high_thresh
+        edges = cv2.Canny(img_grey, lowThresh, high_thresh, apertureSize=3)
+        img3 = cv2.bitwise_not(edges)
+        fname = 'colorme' + str(counter) + '.jpg'
+        cv2.imwrite('result/' + fname ,img3)
+        counter += 1
 
     # cv2.namedWindow('parameters')
     # cv2.createTrackbar('threshold', 'parameters', 0, 255, callback)
@@ -32,11 +40,6 @@ def pagify(url = '../img/test4.jpg'):
     #         break
     #
     # cv2.destroyAllWindows()
-    high_thresh, thresh_im = cv2.threshold(img_grey, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    lowThresh = 0.8 * high_thresh
-    edges = cv2.Canny(img_grey, lowThresh, high_thresh, apertureSize=3)
-    img3 = cv2.bitwise_not(edges)
-    cv2.imwrite('colorme.jpg',img3)
 
 
 # plt.subplot(121),plt.imshow(img)

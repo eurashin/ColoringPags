@@ -19,38 +19,38 @@ API_KEY = cfg['google_api']['key']
 
 
 def format_loc(coord):
-    """
-    Formats a coordinate pair from the list of stepping stones
-    :param coord: valid lat, long pair
-    :return: dictionary representing the coordinate
-    """
     d = dict([
         ('lat', coord[0]),
         ('lng', coord[1])])
     return d
 
-def imageSearch(coord):
+def imageSearch(coords):
     radius = 25
+    counter = 0
 
     gmaps = googlemaps.Client(key=API_KEY)
     gplaces = GooglePlaces(API_KEY)
 
-    place = format_loc(coord)
-    result = []
+    paths = []
 
-    nearby = gplaces.nearby_search(  # call to Google Places API
-                lat_lng=place,
-                radius=radius,  # radius is in m
-                )
+    for coord in coords:
+        place = format_loc(coord)
+        nearby = gplaces.nearby_search(  # call to Google Places API
+                    lat_lng=place,
+                    radius=radius,  # radius is in m
+                    )
 
-    if len(nearby.places) == 0:
-        raise Exception('no nearby')
-    for loc in nearby.places:
-        if len(loc.photos) != 0:
-            photo = loc.photos[0]
-            photo.get(maxheight=5000, maxwidth=5000)
-            f = open('result.jpg', 'wb')
-            f.write(photo.data)
-            f.close()
-            print('done')
-            break
+        if len(nearby.places) != 0:
+            for loc in nearby.places:
+                if len(loc.photos) != 0:
+                    photo = loc.photos[0]
+                    photo.get(maxheight=5000, maxwidth=5000)
+                    fname = 'result/result' + str(counter)+ '.jpg'
+                    f = open(fname, 'wb')
+                    f.write(photo.data)
+                    f.close()
+                    paths.append(fname)
+                    counter += 1
+                    break
+
+    return paths
