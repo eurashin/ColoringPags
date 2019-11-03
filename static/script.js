@@ -21,7 +21,7 @@ var index = 0;
 
 function change_image(i) {
     var paths = JSON.parse(localStorage.getItem('paths'));
-    var path = "/static/" + paths[i];
+    var path = "/static/images/" + paths[i];
     $('#map').css("background-image", "url('" + path + "')");  
 }
 
@@ -73,7 +73,6 @@ var createPDF = function(imgData, i) {
     console.log('added!');
     if(i == NUM_PAGES) {
         doc.save("download.pdf"); 
-        localStorage.clear();
     }
 }
 
@@ -82,8 +81,8 @@ var createPDF = function(imgData, i) {
 function download_pages() {
     var paths = JSON.parse(localStorage.getItem("paths"));
    
-    for(var i=0; i<paths.length; i++) {
-        var url = "/static/" + paths[i] ;
+    for(var i=0; i<NUM_PAGES+1; i++) {
+        var url = "/static/images/" + paths[i] ;
         getImageFromUrl(url, i, createPDF);
     }
     
@@ -102,15 +101,16 @@ function make_coloring_book() {
 
 
     $.ajax({
-        url: 'https://coloring-book-257804.appspot.com/generate_pages',
-//        url: 'http://localhost:8080/generate_pages',
+//        url: 'https://coloring-book-257804.appspot.com/generate_pages',
+        url: 'http://localhost:8080/generate_pages',
         type: 'POST',
         data: formData,
         dataType: "json",
         success: function (data) {
+            localStorage.clear();
             localStorage.setItem('paths', JSON.stringify(data.paths));
-            window.location.replace("https://coloring-book-257804.appspot.com/book");
-            //window.location.replace("http://localhost:8080/book");
+            //window.location.replace("https://coloring-book-257804.appspot.com/book");
+            window.location.replace("http://localhost:8080/book");
         },
         cache: false,
         contentType: false,

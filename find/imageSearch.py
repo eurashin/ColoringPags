@@ -1,4 +1,4 @@
-import googlemaps
+#import googlemaps
 import numpy as np
 import yaml
 from googleplaces import GooglePlaces
@@ -28,7 +28,7 @@ def imageSearch(coords):
     radius = 25
     counter = 0
 
-    gmaps = googlemaps.Client(key=API_KEY)
+   # gmaps = googlemaps.Client(key=API_KEY)
     gplaces = GooglePlaces(API_KEY)
 
     paths = []
@@ -45,7 +45,7 @@ def imageSearch(coords):
                 if len(loc.photos) != 0:
                     photo = loc.photos[0]
                     photo.get(maxheight=5000, maxwidth=5000)
-                    fname = 'static/result' + str(counter)+ '.jpg'
+                    fname = 'static/images/result' + str(counter)+ '.jpg'
                     f = open(fname, 'wb')
                     f.write(photo.data)
                     f.close()

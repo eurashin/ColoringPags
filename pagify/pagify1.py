@@ -1,4 +1,6 @@
+import numpy as np
 import cv2
+from matplotlib import pyplot as plt
 
 def callback(foo):
     pass
@@ -8,8 +10,7 @@ def pagify(paths):
     img_paths = []
     for url in paths:
         img = cv2.imread(url, cv2.IMREAD_UNCHANGED)
-        filtered = cv2.bilateralFilter(img, 1, 200, 20)
-        img_grey = cv2.cvtColor(filtered, cv2.COLOR_BGR2GRAY)
+        img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         high_thresh, thresh_im = cv2.threshold(img_grey, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         lowThresh = 0.8 * high_thresh
         edges = cv2.Canny(img_grey, lowThresh, high_thresh, apertureSize=3)
@@ -24,7 +25,7 @@ def pagify(paths):
 
         img3 = cv2.bitwise_not(resized)
         fname = 'colorme' + str(counter) + '.jpg'
-        cv2.imwrite('static/' + fname ,img3)
+        cv2.imwrite('static/images/' + fname ,img3)
         counter += 1
 
         img_paths.append(fname)
@@ -54,7 +55,7 @@ def pagify(paths):
     #
     # cv2.destroyAllWindows()
 
-# pagify(['../static/result0.jpg', '../static/result6.jpg', '../static/result7.jpg', '../static/result1.jpg'])
+
 # plt.subplot(121),plt.imshow(img)
 # plt.title('Original Image'), plt.xticks([]), plt.yticks([])
 # plt.subplot(122), plt.imshow(edges)

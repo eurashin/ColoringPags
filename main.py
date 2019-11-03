@@ -56,7 +56,7 @@ def generate():
     end_date = request.values.get('end')
 
     # Find the locations!
-    location_data = tools.parse_location_data('static/history.json')
+    location_data = tools.parse_location_data("static/" + file_string)
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
     locations = tools.extract_time_period(location_data, start, end)
@@ -85,6 +85,6 @@ if __name__ == '__main__':
     # the "static" directory. See:
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
-#    app.run(host='127.0.0.1', port=8080, debug=True)
-    app.run(host='https://coloring-book-257804.appspot.com/', debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True)
+#    app.run(host='https://coloring-book-257804.appspot.com/', debug=True)
 # [START gae_python37_render_template]
