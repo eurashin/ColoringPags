@@ -53,6 +53,7 @@ def extract_time_period(df, start_date, end_date):
         KM = KMeans(n_clusters = k, max_iter = 500) 
         KM.fit(place_coords)
         centers = KM.cluster_centers_
+
         plt.scatter(centers[:, 0], centers[:, 1], c='black', s=200, alpha=0.5);
     
     return(centers)

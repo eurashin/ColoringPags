@@ -29,6 +29,7 @@ def pagify(paths):
         counter += 1
 
         img_paths.append(fname)
+        
     return(img_paths)
 
     # cv2.namedWindow('parameters')

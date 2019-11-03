@@ -17,11 +17,38 @@
 var file; 
 var doc; 
 var NUM_PAGES = 9; 
+var index = 0; 
+
+function change_image(i) {
+    var paths = JSON.parse(localStorage.getItem('paths'));
+    var path = "/static/" + paths[i];
+    $('#map').css("background-image", "url('" + path + "')");  
+}
+
+function swipe_left() {
+    if(index >= 1) { // Can swipe left
+        index--; 
+        change_image(index); 
+    }
+}
+
+
+function swipe_right() {
+    if(index <= 8) { // Can swipe left
+        index++; 
+        change_image(index);
+    }
+}
 
 function on_book_load(directory) {
     console.log(localStorage.getItem('paths'));
+
+    // Display the first image
+    change_image(0);
+   
     doc = new jsPDF();
 }
+
 
 
 var getImageFromUrl = function(url, page, callback) {
@@ -34,21 +61,19 @@ var getImageFromUrl = function(url, page, callback) {
     img.onload = function() {
         callback(img, page);
     };
-
+    
+    console.log(url);
     img.src = url;
 }
 
 
 var createPDF = function(imgData, i) {
-    if(i > 0) {
-        doc.addPage();
-    }
-
     doc.addImage(imgData, 'JPEG', 0,0 );
 
     console.log('added!');
     if(i == NUM_PAGES) {
         doc.save("download.pdf"); 
+        localStorage.clear();
     }
 }
 
@@ -77,15 +102,15 @@ function make_coloring_book() {
 
 
     $.ajax({
-//        url: 'https://coloring-book-257804.appspot.com/generate_pages',
-        url: 'http://localhost:8080/generate_pages',
+        url: 'https://coloring-book-257804.appspot.com/generate_pages',
+//        url: 'http://localhost:8080/generate_pages',
         type: 'POST',
         data: formData,
         dataType: "json",
         success: function (data) {
             localStorage.setItem('paths', JSON.stringify(data.paths));
-            //window.location.replace("https://coloring-book-257804.appspot.com/book");
-            window.location.replace("http://localhost:8080/book");
+            window.location.replace("https://coloring-book-257804.appspot.com/book");
+            //window.location.replace("http://localhost:8080/book");
         },
         cache: false,
         contentType: false,

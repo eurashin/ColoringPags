@@ -85,6 +85,6 @@ if __name__ == '__main__':
     # the "static" directory. See:
     # http://flask.pocoo.org/docs/1.0/quickstart/#static-files. Once deployed,
     # App Engine itself will serve those files as configured in app.yaml.
-    app.run(host='127.0.0.1', port=8080, debug=True)
-#    app.run(host='https://coloring-book-257804.appspot.com/', debug=True)
+#    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='https://coloring-book-257804.appspot.com/', debug=True)
 # [START gae_python37_render_template]
