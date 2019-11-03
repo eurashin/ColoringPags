@@ -80,6 +80,7 @@ var getImageFromUrl = function(url, page, callback) {
 
 
 var createPDF = function(imgData, i) {
+    doc.addPage();
     doc.addImage(imgData, 'JPEG', 0,0 );
 
     console.log('added!');
