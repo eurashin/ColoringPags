@@ -21,6 +21,7 @@ from find.imageSearch import imageSearch
 from pagify.pagify1 import pagify
 from PIL import Image
 import io
+import os
 
 
 app = Flask(__name__)
@@ -60,6 +61,11 @@ def generate():
     start = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
     end = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
     locations = tools.extract_time_period(location_data, start, end)
+
+    # Delete old images
+    filelist = [ f for f in os.listdir("static/images/") if f.endswith(".jpg") ]
+    for f in filelist:
+        os.remove(os.path.join('static/images/', f))
   
     # Retrieve the photos
     if( isinstance(locations, list)): 

@@ -40,7 +40,19 @@ function swipe_right() {
     }
 }
 
-function on_book_load(directory) {
+
+function on_main_load() {
+    window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload(true);
+    }
+    }
+
+}
+
+function on_book_load() {
+
     console.log(localStorage.getItem('paths'));
 
     // Display the first image
